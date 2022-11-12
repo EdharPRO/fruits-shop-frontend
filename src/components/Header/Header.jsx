@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AppBar, Badge, Box, IconButton, Stack, styled, Toolbar } from '@mui/material';
 import { Instagram } from '@mui/icons-material';
 import { Facebook } from '@mui/icons-material';
@@ -6,11 +7,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { PurchasesContext } from '../../modules/purchases';
-import { Basket } from "../Basket";
+import { Basket } from '../Basket';
 import logo from './logo.png';
-import { Link } from 'react-router-dom';
+import { SignIn } from './SignIn';
 
 const StyledToolbar = styled(Toolbar)({
     justifyContent: 'space-between',
@@ -54,9 +54,7 @@ export const Header = () => {
                     </Box>
 
                     <Stack spacing={1} direction="row">
-                        <IconButton  color="inherit">
-                            <AccountCircleIcon />
-                        </IconButton>
+                        <SignIn />
 
                         <Badge badgeContent={purchases.length} color="primary">
                             <IconButton color="inherit" onClick={() => setCartOpen(true)} >
