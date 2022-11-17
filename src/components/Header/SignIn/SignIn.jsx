@@ -33,8 +33,8 @@ export const SignIn = () => {
 
   return (
     <>
-      <IconButton color="inherit">
-        <AccountCircleIcon onClick={handleClickOpen} />
+      <IconButton color="inherit" onClick={handleClickOpen}>
+        <AccountCircleIcon />
       </IconButton>
 
       <Dialog
