@@ -1,8 +1,9 @@
 import { forwardRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import {
   Avatar,
-  Box,
   Button,
   Checkbox,
   Dialog,
@@ -11,32 +12,30 @@ import {
   Paper,
   Slide,
   Stack,
-  TextField,
   Typography
 } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { TextField } from '../../TextField';
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
+const validationSchema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(6).required()
+}).required();
+
 export const SignIn = () => {
   const [ open, setOpen ] = useState(false);
-  const {
-    register,
-    formState: {
-      errors
-    },
-    handleSubmit,
-    reset
-  } = useForm({
-    mode: "onBlur"
+  const form = useForm({
+    mode: 'onBlur',
+    resolver: yupResolver(validationSchema)
   });
 
   const signIn = (data) => {
     console.log(data);
-    reset();
   };
 
   const handleClickOpen = () => {
@@ -54,9 +53,10 @@ export const SignIn = () => {
       </IconButton>
 
       <Dialog
-          open={open}
-          TransitionComponent={Transition}
-          onClose={handleClose}
+        open={open}
+        maxWidth="xs"
+        TransitionComponent={Transition}
+        onClose={handleClose}
       >
         <Paper elevation={0} sx={{ padding: 3 }}>
           <Stack
@@ -73,51 +73,36 @@ export const SignIn = () => {
 
             <Typography variant="subtitle1">Sign In</Typography>
 
-            <form onSubmit={handleSubmit(signIn)}>
-              <TextField
-                  {...register("Email", {
-                    required: "Write your e-mail, please",
-                    minLength: {
-                      message: "Minimum 5 letters",
-                      value: 5
-                    }
-                  })}
+            <FormProvider {...form}>
+              <form noValidate onSubmit={form.handleSubmit(signIn)}>
 
-                  sx={{ mb: 2 }}
-                  type="text"
+                <TextField
+                  required
+                  name="email"
+                  type="email"
                   label="E-mail"
-              />
-              <Box>
-                {errors?.Email && <Typography variant="subtitle2">{errors?.Email?.message }</Typography>}
-              </Box>
+                  placeholder="Enter e-mail..."
+                  margin="dense"
+                />
 
-              <br />
-              <TextField
-                  {...register('Password', {
-                    required: "Write your password, please",
-                    minLength: {
-                      message: "Minimum 5 letters",
-                      value: 5
-                    }
-                  })}
-
-                  sx={{ mb: 2 }}
+                <TextField
+                  required
+                  name="password"
                   type="password"
                   label="Password"
-              />
-              <Box>
-                {errors?.Password && <Typography variant="subtitle2">{errors?.Password?.message }</Typography>}
-              </Box>
+                  placeholder="Enter password..."
+                  margin="dense"
+                />
 
-              <br />
-              <FormControlLabel
-                  sx={{ mb: 1 }}
-                  control={<Checkbox />}
+                <FormControlLabel
                   label="Remember Me"
-              />
-              <br />
-              <Button type="submit" variant="contained">Sign In</Button>
-            </form>
+                  margin="dense"
+                  control={<Checkbox />}
+                />
+
+                <Button type="submit" variant="contained">Sign In</Button>
+              </form>
+            </FormProvider>
           </Stack>
         </Paper>
       </Dialog>

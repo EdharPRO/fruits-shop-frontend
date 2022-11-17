@@ -10,6 +10,14 @@ export const theme = {
           backgroundColor: palette.secondary.main
         }
       })
+    },
+
+    MuiDialog: {
+      styleOverrides: {
+        paperWidthXs: {
+          maxWidth: 280
+        }
+      }
     }
   }
 };
