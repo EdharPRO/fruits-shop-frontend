@@ -2,24 +2,24 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {
-  Avatar, Box,
+  Box,
   Button,
-  Container, Grid,
+  Container,
+  Grid,
   Paper,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material';
-import PaymentIcon from '@mui/icons-material/Payment';
-import { TextField } from '../components/TextField';
+import { TextField } from '../../TextField';
 
 const validationSchema = yup.object().shape({
-  name: yup.string().min(6).required(),
-  card: yup.number().required(),
-  date: yup.number().min(6).required(),
-  cvv: yup.number().min(3).required()
+  name: yup.string().required(),
+  surname: yup.string().required(),
+  address: yup.string().required(),
+  city: yup.string().min(4).required(),
+  country: yup.string().required()
 }).required();
 
-export const PayPage = () => {
+export const Shippingadress = () => {
 
   const form = useForm({
     mode: 'onBlur',
@@ -49,25 +49,16 @@ export const PayPage = () => {
             textAlign: 'center'
           }}
         >
-          <Avatar sx={{ bgcolor: "tomato" }} >
-            <PaymentIcon />
-          </Avatar>
-          <Typography variant="h5">Checkout</Typography>
-
           <FormProvider {...form}>
             <form noValidate onSubmit={form.handleSubmit(signIn)}>
               <Grid container spacing={1} sx={{ padding: 0 }}>
-                <Grid item md={12}>
-                  <Typography>Payment method</Typography>
-                </Grid>
-
                 <Grid item xs={12} md={6}>
                   <TextField
                     required
                     name="name"
                     type="text"
-                    label="Name on card"
-                    placeholder="Name on card"
+                    label="Name"
+                    placeholder="Name"
                     margin="dense"
                     variant="standard"
                   />
@@ -76,10 +67,22 @@ export const PayPage = () => {
                 <Grid item xs={12} md={6}>
                   <TextField
                     required
-                    name="card"
+                    name="surname"
                     type="text"
-                    label="Card number"
-                    placeholder="Card number"
+                    label="Surname"
+                    placeholder="Surname"
+                    margin="dense"
+                    variant="standard"
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={12}>
+                  <TextField
+                    required
+                    name="address"
+                    type="text"
+                    label="Address"
+                    placeholder="Address"
                     margin="dense"
                     variant="standard"
                   />
@@ -88,11 +91,32 @@ export const PayPage = () => {
                 <Grid item xs={12} md={6}>
                   <TextField
                     required
-                    // defaultValue="+380 " doesn`t work
-                    name="date"
+                    name="city"
                     type="text"
-                    label="Expiry date"
-                    placeholder="Expiry date"
+                    label="City"
+                    placeholder="City"
+                    margin="dense"
+                    variant="standard"
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    name="state"
+                    type="text"
+                    label="State/Province/Region"
+                    placeholder="State/Province/Region"
+                    margin="dense"
+                    variant="standard"
+                  />
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <TextField
+                    name="zip"
+                    type="text"
+                    label="Zip / Postal code"
+                    placeholder="Zip / Postal code"
                     margin="dense"
                     variant="standard"
                   />
@@ -101,25 +125,24 @@ export const PayPage = () => {
                 <Grid item xs={12} md={6}>
                   <TextField
                     required
-                    name="cvv"
+                    name="country"
                     type="text"
-                    label="CVV"
-                    placeholder="CVV"
+                    label="Country"
+                    placeholder="Country"
                     margin="dense"
                     variant="standard"
                   />
                 </Grid>
-
-
               </Grid>
+
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
                 <Button type="submit" variant="contained">Next</Button>
               </Box>
+
             </form>
           </FormProvider>
         </Stack>
       </Paper>
-      {/*</Box>*/}
     </Container>
   );
 };

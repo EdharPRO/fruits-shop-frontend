@@ -13,91 +13,91 @@ import logo from './logo.png';
 import { SignIn } from './SignIn';
 
 const StyledToolbar = styled(Toolbar)({
-    justifyContent: 'space-between',
-    alignItems: 'center'
+  justifyContent: 'space-between',
+  alignItems: 'center'
 });
 
 const menuItems = [
-    { name: 'Home', link: '/', id: 1 },
-    { name: 'Products', link: '#', id: 2 },
-    { name: 'Sales', link: '#', id: 3 },
-    { name: 'Contact Us', link: '#', id: 4 }
+  { name: 'Home', link: '/', id: 1 },
+  { name: 'Products', link: '#', id: 2 },
+  { name: 'Sales', link: '#', id: 3 },
+  { name: 'Contact Us', link: '#', id: 4 }
 ];
 
 export const Header = () => {
-    const [ open, setOpen ] = useState(false);
-    const [ isCartOpen, setCartOpen ] = useState(false);
-    const { purchases } = useContext(PurchasesContext);
+  const [ open, setOpen ] = useState(false);
+  const [ isCartOpen, setCartOpen ] = useState(false);
+  const { purchases } = useContext(PurchasesContext);
 
-    return (
-        <>
-            <AppBar color="secondary" position="fixed">
-                <StyledToolbar>
-                    <Stack direction="row" alignItems="center">
-                        <IconButton
-                            color="inherit"
-                            sx={{ display: { md: 'none' }, mr: 2 }}
-                            onClick={() => setOpen((open) => !open)}
-                        >
-                            <MenuIcon/>
-                        </IconButton>
+  return (
+    <>
+      <AppBar color="secondary" position="fixed">
+        <StyledToolbar>
+          <Stack direction="row" alignItems="center">
+            <IconButton
+              color="inherit"
+              sx={{ display: { md: 'none' }, mr: 2 }}
+              onClick={() => setOpen((open) => !open)}
+            >
+              <MenuIcon/>
+            </IconButton>
 
-                        <Link to="/">
-                            <img alt="logo" src={logo}/>
-                        </Link>
-                    </Stack>
+            <Link to="/">
+              <img alt="logo" src={logo}/>
+            </Link>
+          </Stack>
 
-                    <Box component="nav" sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        {menuItems.map((item) => (
-                            <MenuItem key={item.id}>{item.name}</MenuItem>
-                        ))}
-                    </Box>
+          <Box component="nav" sx={{ display: { xs: 'none', md: 'flex' } }}>
+            {menuItems.map((item) => (
+              <MenuItem key={item.id}>{item.name}</MenuItem>
+            ))}
+          </Box>
 
-                    <Stack spacing={1} direction="row">
-                        <SignIn />
+          <Stack spacing={1} direction="row">
+            <SignIn />
 
-                        <Badge badgeContent={purchases.length} color="primary">
-                            <IconButton color="inherit" onClick={() => setCartOpen(true)} >
-                                <ShoppingCartIcon />
-                            </IconButton>
-                        </Badge>
+            <Badge badgeContent={purchases.length} color="primary">
+              <IconButton color="inherit" onClick={() => setCartOpen(true)} >
+                <ShoppingCartIcon />
+              </IconButton>
+            </Badge>
 
-                        <Basket
-                            cartOpen={isCartOpen}
-                            onClose={() => setCartOpen(false)}
-                        />
+            <Basket
+              cartOpen={isCartOpen}
+              onClose={() => setCartOpen(false)}
+            />
 
-                        <IconButton  color="inherit">
-                            <Instagram />
-                        </IconButton>
+            <IconButton  color="inherit">
+              <Instagram />
+            </IconButton>
 
-                        <IconButton sx={{ display: { xs: 'none', md: 'flex' } }} color="inherit">
-                            <Facebook />
-                        </IconButton>
-                    </Stack>
-                </StyledToolbar>
+            <IconButton sx={{ display: { xs: 'none', md: 'flex' } }} color="inherit">
+              <Facebook />
+            </IconButton>
+          </Stack>
+        </StyledToolbar>
 
-                <Menu
-                    open={open}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left'
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left'
-                    }}
-                    onClose={() => setOpen((open) => !open)}
-                >
-                    {menuItems.map((item) => (
-                        <MenuItem key={item.id}>{item.name}</MenuItem>
-                    ))}
-                </Menu>
-            </AppBar>
+        <Menu
+          open={open}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left'
+          }}
+          onClose={() => setOpen((open) => !open)}
+        >
+          {menuItems.map((item) => (
+            <MenuItem key={item.id}>{item.name}</MenuItem>
+          ))}
+        </Menu>
+      </AppBar>
 
-            <Toolbar />
-        </>
-    );
+      <Toolbar />
+    </>
+  );
 };
 // }
 

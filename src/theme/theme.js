@@ -18,6 +18,14 @@ export const theme = {
           maxWidth: 280
         }
       }
+    },
+
+    MuiContainer: {
+      styleOverrides: {
+        paperWidthXs: {
+          maxWidth: 280
+        }
+      }
     }
   }
 };

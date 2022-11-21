@@ -11,6 +11,10 @@ export const PurchasesProvider = ({ children }) => {
     setPurchases(newPurchases);
   };
 
+  const remAllPurchases = () => {
+    setPurchases([]);
+  };
+
   const buyProduct = (product) => {
     setPurchases((purchases) => {
       const existedPurchase = purchases.find(({ product: { id } }) => product.id === id);
@@ -46,12 +50,14 @@ export const PurchasesProvider = ({ children }) => {
     purchases,
 
     buyProduct,
-    removePurchase
+    removePurchase,
+
+    remAllPurchases
   };
 
   return (
-      <PurchasesContext.Provider value={providerValue}>
-        {children}
-      </PurchasesContext.Provider>
+    <PurchasesContext.Provider value={providerValue}>
+      {children}
+    </PurchasesContext.Provider>
   );
 };

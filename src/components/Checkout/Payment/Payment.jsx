@@ -2,15 +2,14 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {
-  Avatar, Box,
+  Box,
   Button,
-  Container, Grid,
+  Container,
+  Grid,
   Paper,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material';
-import PaymentIcon from '@mui/icons-material/Payment';
-import { TextField } from '../components/TextField';
+import { TextField } from '../../TextField';
 
 const validationSchema = yup.object().shape({
   name: yup.string().min(6).required(),
@@ -19,7 +18,7 @@ const validationSchema = yup.object().shape({
   cvv: yup.number().min(3).required()
 }).required();
 
-export const PayPage = () => {
+export const Payment = () => {
 
   const form = useForm({
     mode: 'onBlur',
@@ -49,18 +48,10 @@ export const PayPage = () => {
             textAlign: 'center'
           }}
         >
-          <Avatar sx={{ bgcolor: "tomato" }} >
-            <PaymentIcon />
-          </Avatar>
-          <Typography variant="h5">Checkout</Typography>
-
           <FormProvider {...form}>
+
             <form noValidate onSubmit={form.handleSubmit(signIn)}>
               <Grid container spacing={1} sx={{ padding: 0 }}>
-                <Grid item md={12}>
-                  <Typography>Payment method</Typography>
-                </Grid>
-
                 <Grid item xs={12} md={6}>
                   <TextField
                     required
@@ -88,7 +79,6 @@ export const PayPage = () => {
                 <Grid item xs={12} md={6}>
                   <TextField
                     required
-                    // defaultValue="+380 " doesn`t work
                     name="date"
                     type="text"
                     label="Expiry date"
@@ -109,17 +99,16 @@ export const PayPage = () => {
                     variant="standard"
                   />
                 </Grid>
-
-
               </Grid>
+
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
                 <Button type="submit" variant="contained">Next</Button>
               </Box>
+
             </form>
           </FormProvider>
         </Stack>
       </Paper>
-      {/*</Box>*/}
     </Container>
   );
 };
