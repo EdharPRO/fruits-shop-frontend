@@ -18,97 +18,68 @@ const validationSchema = yup.object().shape({
   cvv: yup.number().min(3).required()
 }).required();
 
-export const Payment = () => {
-
+export const Payment = ({ onBack, onComplete }) => {
   const form = useForm({
-    mode: 'onBlur',
-    resolver:yupResolver(validationSchema)
+    mode: 'onBlur'
+    // resolver: yupResolver(validationSchema)
   });
 
-  const signIn = (data) => {
-    console.log(data);
+  const handleSubmit = (data) => {
+    onComplete({ payment: data });
   };
 
   return (
-    <Container
-      maxWidth='md'
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent:'center',
-        textAlign:'center',
-        mt: 3
-      }}
-    >
-      <Paper elevation={0} sx={{ padding: 2, maxWidth: 500 }}>
-        <Stack spacing={1}
-          sx={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            textAlign: 'center'
-          }}
-        >
-          <FormProvider {...form}>
+    <FormProvider {...form}>
+      <form noValidate onSubmit={form.handleSubmit(handleSubmit)}>
+        <Grid container spacing={1} sx={{ padding: 0 }}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              required
+              name="name"
+              label="Name on card"
+              placeholder="Name on card"
+            />
+          </Grid>
 
-            <form noValidate onSubmit={form.handleSubmit(signIn)}>
-              <Grid container spacing={1} sx={{ padding: 0 }}>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    name="name"
-                    type="text"
-                    label="Name on card"
-                    placeholder="Name on card"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              required
+              name="card"
+              label="Card number"
+              placeholder="Card number"
+            />
+          </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    name="card"
-                    type="text"
-                    label="Card number"
-                    placeholder="Card number"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              required
+              name="date"
+              label="Expiry date"
+              placeholder="Expiry date"
+            />
+          </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    name="date"
-                    type="text"
-                    label="Expiry date"
-                    placeholder="Expiry date"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              required
+              name="cvv"
+              label="CVV"
+              placeholder="CVV"
+              variant="standard"
+            />
+          </Grid>
+        </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    name="cvv"
-                    type="text"
-                    label="CVV"
-                    placeholder="CVV"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
-              </Grid>
+        <Stack direction="row" justifyContent="flex-end" spacing={1}>
+          <Button onClick={onBack}>
+            Back
+          </Button>
 
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-                <Button type="submit" variant="contained">Next</Button>
-              </Box>
-
-            </form>
-          </FormProvider>
+          <Button onClick={onComplete} variant="contained" type="submit">
+            Complete order
+          </Button>
         </Stack>
-      </Paper>
-    </Container>
+      </form>
+    </FormProvider>
   );
 };
