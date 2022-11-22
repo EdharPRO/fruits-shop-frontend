@@ -19,130 +19,95 @@ const validationSchema = yup.object().shape({
   country: yup.string().required()
 }).required();
 
-export const Shippingadress = () => {
-
+export const Shippingadress = ({ onNext }) => {
   const form = useForm({
-    mode: 'onBlur',
-    resolver:yupResolver(validationSchema)
+    mode: 'onBlur'
+    // resolver: yupResolver(validationSchema)
   });
 
-  const signIn = (data) => {
-    console.log(data);
+  const handleSubmit = (data) => {
+    onNext({ address: data });
   };
 
   return (
-    <Container
-      maxWidth='md'
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent:'center',
-        textAlign:'center',
-        mt: 3
-      }}
-    >
-      <Paper elevation={0} sx={{ padding: 2, maxWidth: 500 }}>
-        <Stack spacing={1}
-          sx={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            textAlign: 'center'
-          }}
-        >
-          <FormProvider {...form}>
-            <form noValidate onSubmit={form.handleSubmit(signIn)}>
-              <Grid container spacing={1} sx={{ padding: 0 }}>
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    name="name"
-                    type="text"
-                    label="Name"
-                    placeholder="Name"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+    <FormProvider {...form}>
+      <form noValidate onSubmit={form.handleSubmit(handleSubmit)}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              required
+              name="name"
+              label="Name"
+              placeholder="Name"
+              variant="standard"
+            />
+          </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    name="surname"
-                    type="text"
-                    label="Surname"
-                    placeholder="Surname"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              required
+              name="surname"
+              label="Surname"
+              placeholder="Surname"
+              variant="standard"
+            />
+          </Grid>
 
-                <Grid item xs={12} md={12}>
-                  <TextField
-                    required
-                    name="address"
-                    type="text"
-                    label="Address"
-                    placeholder="Address"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+          <Grid item xs={12} md={12}>
+            <TextField
+              required
+              name="address"
+              label="Address"
+              placeholder="Address"
+              variant="standard"
+            />
+          </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    name="city"
-                    type="text"
-                    label="City"
-                    placeholder="City"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              required
+              name="city"
+              label="City"
+              placeholder="City"
+              variant="standard"
+            />
+          </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    name="state"
-                    type="text"
-                    label="State/Province/Region"
-                    placeholder="State/Province/Region"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              name="state"
+              label="State/Province/Region"
+              placeholder="State/Province/Region"
+              variant="standard"
+            />
+          </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    name="zip"
-                    type="text"
-                    label="Zip / Postal code"
-                    placeholder="Zip / Postal code"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              name="zip"
+              label="Zip / Postal code"
+              placeholder="Zip / Postal code"
+              variant="standard"
+            />
+          </Grid>
 
-                <Grid item xs={12} md={6}>
-                  <TextField
-                    required
-                    name="country"
-                    type="text"
-                    label="Country"
-                    placeholder="Country"
-                    margin="dense"
-                    variant="standard"
-                  />
-                </Grid>
-              </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              required
+              name="country"
+              label="Country"
+              placeholder="Country"
+              variant="standard"
+            />
+          </Grid>
+        </Grid>
 
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
-                <Button type="submit" variant="contained">Next</Button>
-              </Box>
-
-            </form>
-          </FormProvider>
+        <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
+          <Button variant="contained" type="submit">
+            Next
+          </Button>
         </Stack>
-      </Paper>
-    </Container>
+      </form>
+    </FormProvider>
   );
 };
