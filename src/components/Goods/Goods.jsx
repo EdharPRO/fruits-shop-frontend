@@ -50,7 +50,6 @@ export const Goods = ({ category }) => {
           <Grid
             container
             justifyContent="center"
-            alignItems="center"
           >
             {products.map((product) => (
               <Grid item key={product.id} padding={2}>

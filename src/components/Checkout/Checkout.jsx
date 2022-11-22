@@ -1,7 +1,6 @@
-import * as React from 'react';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Typography, Button, Avatar, Container, Paper } from '@mui/material';
+import { Box, Typography, Button, Avatar, Container, Paper, Stack } from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -11,31 +10,19 @@ import { Payment } from './Payment';
 import { Review } from './Review';
 import { PurchasesContext } from '../../modules/purchases';
 
-
-const steps = [ 'Shipping address', 'Payment details', 'Review your order' ];
-
+const steps = [
+  { name: 'Shipping address', component: Shippingadress },
+  { name: 'Payment details', component: Payment },
+  { name: 'Review your order', component: Review }
+];
 
 export const Checkout = () => {
-
-  const { remAllPurchases } = useContext(PurchasesContext);
-
-
-  function getStepContent(step) {
-    switch (step) {
-    case 0:
-      return <Shippingadress />;
-    case 1:
-      return <Payment />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-    }
-  }
-
+  const { purchases, remAllPurchases } = useContext(PurchasesContext);
   const [ activeStep, setActiveStep ] = useState(0);
+  const [ order, setOrder ] = useState({ purchases });
 
-  const handleNext = () => {
+  const handleNext = (payload) => {
+    setOrder((order) => ({ ...order, ...payload }));
     setActiveStep(activeStep + 1);
   };
 
@@ -43,67 +30,65 @@ export const Checkout = () => {
     setActiveStep(activeStep - 1);
   };
 
+  const completeOrder = (payload) => {
+    handleNext(payload);
+    remAllPurchases();
+    console.log(order);
+  };
+
   return (
-    <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-      <Paper elevation={0} sx={{ padding: 2, mt: 6, mb: 6 }}>
-        <Box sx={{ width: '100%' }}>
+    <Container component="main" maxWidth="sm" sx={{ py: 4 }}>
+      <Paper elevation={0} sx={{ py: 2, px: 4 }}>
+        <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Avatar sx={{ bgcolor: 'primary.main', mb: 2 }} >
+            <PaymentIcon />
+          </Avatar>
 
-          <Box sx={{ mt: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Avatar sx={{ bgcolor: "tomato", mb: 2 }} >
-              <PaymentIcon />
-            </Avatar>
-            <Typography sx={{ mb: 2 }} variant="h5">Checkout</Typography>
-          </Box>
-
-          <Stepper activeStep={activeStep} alternativeLabel>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-
-          {activeStep === steps.length ? (
-            <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'center', mt: 4 }}>
-              <Typography variant="h5" gutterBottom>
-                Thank you for your order.
-              </Typography>
-              <Typography variant="subtitle1">
-                Your order number is #2001539. We have emailed your order
-                confirmation, and will send you an update when your order has
-                shipped.
-              </Typography>
-
-              <Button
-                component={Link}
-                to="/"
-                sx={{ mt: 2 }}
-                variant="contained"
-              >
-                Go to main
-              </Button>
-            </Box>
-          ) : (
-            <React.Fragment>
-              {getStepContent(activeStep)}
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                {activeStep !== 0 && (
-                  <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                    Back
-                  </Button>
-                )}
-
-                <Button
-                  variant="contained"
-                  onClick={handleNext}
-                  sx={{ mt: 3, ml: 1 }}
-                >
-                  {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                </Button>
-              </Box>
-            </React.Fragment>
-          )}
+          <Typography sx={{ mb: 2 }} variant="h5">Checkout</Typography>
         </Box>
+
+        <Stepper alternativeLabel activeStep={activeStep} sx={{ mb: 4 }}>
+          {steps.map(({ name }) => (
+            <Step key={name}>
+              <StepLabel>{name}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+
+        {activeStep === steps.length ? (
+          <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'center', mt: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Thank you for your order.
+            </Typography>
+
+            <Typography variant="subtitle1">
+              Your order number is #2001539. We have emailed your order
+              confirmation, and will send you an update when your order has
+              shipped.
+            </Typography>
+
+            <Button
+              component={Link}
+              to="/"
+              sx={{ mt: 2 }}
+              variant="contained"
+            >
+              Go to main
+            </Button>
+          </Box>
+        ) : (
+          <>
+            {steps.map((Step, index) => activeStep !== index ? null : (
+              <Step.component
+                key={index}
+                order={order}
+                onBack={handleBack}
+                onNext={handleNext}
+                onComplete={completeOrder}
+              />
+            ))}
+          </>
+        )}
       </Paper>
     </Container>
   );

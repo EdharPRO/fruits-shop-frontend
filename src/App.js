@@ -17,6 +17,7 @@ function App() {
         <ProductsProvider>
           <PurchasesProvider>
             <Header />
+
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/pay" element={<Checkout />} />
