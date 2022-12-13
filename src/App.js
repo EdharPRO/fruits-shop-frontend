@@ -4,9 +4,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Header } from './components/Header';
 import { theme } from './theme';
 import { ProductsProvider } from './modules/products';
-import { PurchasesContext, PurchasesProvider } from './modules/purchases';
+import { PurchasesProvider } from './modules/purchases';
 import { NotFound } from './app/NotFound';
-import { PayPage } from './app/PayPage';
 import { MainPage } from './app/MainPage';
 import { Checkout } from './components/Checkout/Checkout';
 
