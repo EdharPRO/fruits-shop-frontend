@@ -54,11 +54,11 @@ export const Header = () => {
           </Box>
 
           <Stack spacing={1} direction="row">
-            <SignIn />
+            <SignIn/>
 
             <Badge badgeContent={purchases.length} color="primary">
-              <IconButton color="inherit" onClick={() => setCartOpen(true)} >
-                <ShoppingCartIcon />
+              <IconButton color="inherit" onClick={() => setCartOpen(true)}>
+                <ShoppingCartIcon/>
               </IconButton>
             </Badge>
 
@@ -67,12 +67,12 @@ export const Header = () => {
               onClose={() => setCartOpen(false)}
             />
 
-            <IconButton  color="inherit">
-              <Instagram />
+            <IconButton color="inherit">
+              <Instagram/>
             </IconButton>
 
             <IconButton sx={{ display: { xs: 'none', md: 'flex' } }} color="inherit">
-              <Facebook />
+              <Facebook/>
             </IconButton>
           </Stack>
         </StyledToolbar>
@@ -95,12 +95,7 @@ export const Header = () => {
         </Menu>
       </AppBar>
 
-      <Toolbar />
+      <Toolbar/>
     </>
   );
 };
-// }
-
-// {menuItems.map((item) => {
-//     return <MenuItem button key={item.id}>{item.name}</MenuItem>
-// })}
